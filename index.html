@@ -30,7 +30,7 @@ h1{font-size:1.5rem;margin:0 0 4px;letter-spacing:-.01em;}
 .dot.off{background:var(--danger);}
 .setup{background:rgba(224,164,48,.12);border:1px solid var(--accent);border-radius:10px;padding:16px 18px;margin-bottom:22px;font-size:.88rem;}
 .setup code{background:var(--panel2);padding:2px 6px;border-radius:4px;font-size:.85em;}
-
+ 
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:22px;}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 @media (max-width:560px){.grid{grid-template-columns:1fr;}}
@@ -43,7 +43,7 @@ input,select,textarea{
 }
 textarea{resize:vertical;min-height:60px;}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;}
-
+ 
 .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
 button{
   border:none;border-radius:6px;padding:10px 18px;font-size:.9rem;font-weight:600;
@@ -54,11 +54,11 @@ button{
 .btn-secondary{background:transparent;color:var(--text);border:1px solid var(--line);}
 .btn-secondary:hover{border-color:var(--accent);}
 button:disabled{opacity:.5;cursor:default;}
-
+ 
 .toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
 .toolbar h2{font-size:1rem;margin:0;color:var(--muted);font-weight:600;}
 .toolbar .right{display:flex;gap:8px;flex-wrap:wrap;}
-
+ 
 .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;}
 table{width:100%;border-collapse:collapse;font-size:.86rem;min-width:680px;}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;}
@@ -81,11 +81,11 @@ tr:last-child td{border-bottom:none;}
     <div class="sub">Registro compartido — todos los que abren esta página ven y agregan entradas, sincronizado a través de Google Sheets.</div>
     <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Conectando…</span></div>
   </header>
-
+ 
   <div class="setup" id="setupWarning" style="display:none;">
     ⚠️ Falta configurar la conexión a Google Sheets. Abre este archivo, busca la línea <code>const APPS_SCRIPT_URL</code> cerca del final del &lt;script&gt;, y pega ahí la URL de tu Web App de Apps Script. Sigue la guía paso a paso que te compartieron para obtenerla.
   </div>
-
+ 
   <section class="card">
     <div class="grid">
       <div class="field">
@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:none;}
       <button class="btn-primary" id="btnAdd">Agregar registro</button>
     </div>
   </section>
-
+ 
   <div class="toolbar">
     <h2 id="countLabel">Registros</h2>
     <div class="right">
@@ -157,26 +157,26 @@ tr:last-child td{border-bottom:none;}
     <div class="empty" id="emptyMsg" style="display:none;">Aún no hay registros. Agrega el primero arriba.</div>
   </div>
 </div>
-
+ 
 <script>
-/* ===== PEGA AQUÍ LA URL DE TU WEB APP DE GOOGLE APPS SCRIPT ===== */
-const APPS_SCRIPT_URL = "PEGA_AQUI_TU_URL_DE_APPS_SCRIPT";
+/* ===== https://script.google.com/macros/s/AKfycbxYCGtAGE-MoYWKJSccxAjiyPhQ3MXWOvgF9-5a7u0FIN_iGVkZVa8mTuWNhNLwFz9W/exec */
+const APPS_SCRIPT_URL = https://script.google.com/macros/s/AKfycbxYCGtAGE-MoYWKJSccxAjiyPhQ3MXWOvgF9-5a7u0FIN_iGVkZVa8mTuWNhNLwFz9W/exec;
 /* ================================================================= */
-
+ 
 const EQUIPOS = ["ATK-PR17","ATK-PR18","ATK-PR24","ATK-PR26","ATK-PR33","ATK-LS03","ATK-LS11","ATK-LS12","ATK-LS13","ATK-LS14","ATK-LS06","ATK-LS09","ATK-PR09","ATK-PR23","ATK-PR27","ATK-PR32","ATK-PRLA-A1","ATK-PRLA-A2","ATK-PRLA-A3","ATK-PRLA-A4","ATK-PRLA-A5","ATK-PRLA-A6","ATK-PRH1","ATK-PRH2","ATK-PR10","ATK-PR21","ATK-PR22","ATK-PR25","ATK-LS01","ATK-LS07","ATK-LS08","ATK-LS10","ATK-PR30","ATK-LS02","ATK-LS05","ATK-PR13","ATK-LS04","ATK-PR15","ATK-PR31","ATK-PR11","ATK-PR14","Grúa 1","Grúa 2","Grúa 3","Grúa 4","Grúa 5","Grúa 6","Grúa 7","Grúa 8","Grúa 9","Grúa 10","Grúa 11","Grúa 12"].sort((a,b)=>a.localeCompare(b,'es',{numeric:true,sensitivity:'base'}));
-
+ 
 const SUPERVISORES = ["Julio Alcazar","Martin Fuentes","Efrain Simon","Marco Hoyos","Francisco Rojas","Anselmo Alvarado"];
-
+ 
 const TECNICOS = ["Julio Alcazar","Ruben Blancarte","Jose Luis Torres","Felipe Rubin","Gustavo Villegas","Alcazar Rojas","Efrain Simon","Pablo Fabian","Cesar Bautista","Santiago Rodriguez","Tomas Hernandez","Aureliano Gonzalez","Martin Fuentes","Adrian Muñoz","Claudio Larios","Omar Castañeda","Rogelio Aguirre","Adrian Salas","Marco Hoyos","Fernando García","Miguel Diyarza","Gustavo Torres","Gregorio Rodriguez","Victor Castillo","Juan Garcia"].sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
-
+ 
 const CATEGORIAS_FALLA = ["Control","Eléctrica","Hidráulica","Mecánica","Neumática","Sensores"];
-
+ 
 const MODOS_FALLA = ["Ajuste cowl catcher","Ajuste de apertura y cierre de clamp","Ajuste de dedos centradores de platina","Ajuste de dispositivo de corte","Ajuste de drop R1","Ajuste de drop R2","Ajuste de embolo","Ajuste de parametros","Ajuste de sensores Rolland","Ajuste de trimm o forma  en dispositivo","Ajuste grippers","Ajuste o cambio de sensor de presencia","Ajuste o cambio de sensores de spider","Ajuste o reparacion de spider","Ajuste por rebabas","Ajuste por variación en pieza","Alimentador","Banda de salida","Banda scrap sotano","Barras de transfer","Bolster","Cambio de boquilla","cambio de cable de sensor","cambio de manguera de aire","Cambio de rodillos","Carro en destacker","Carro porta rollo","Centrado de barreno","Check list seguridad","Clamps hidraulicos de embolo (sujecion hta.)","Clutch/freno torpac","Contrabalance","Cortinas de seguridad","Daño de ventana","Detección de Falla","Enderezador/mandril","Falla acoplamiento de robots en CT","Falla de banda de salida de scrap","Falla de extractor de polvos","Falla de multicopling","Falla de pokayoke","Falla de puercoespin","Falla de robot 1","Falla de robot 2","Falla de robot 3","Falla de troquel","Falla del observe Line","Falla electrica","Falla en chiller","Falla en horno","Falla en mesa giratoria","Falla en Torre de Enfriamiento","Falla en vacío R1","Falla sensores","Falla sumunistro de aire alta presion","Falla sumunistro de aire comprimido","Falta de refacción en almacen","Fuga de agua de conexiones o mangueras","Fuga/falta de aceite","Lubricacion fusch","Lubricacion prensa","Material desfasado","Motor principal","Problemas con grua","Reasignacion de tiempo","Reparacion de clamp de sujecion","Reparacion o ajuste por colision de cabezal","Sobrecarga hidraulica","Tryout"];
-
+ 
 let records = [];
 let canWrite = true;
 let pollTimer = null;
-
+ 
 function fillSelect(id, list){
   const sel = document.getElementById(id);
   list.forEach(v=>{
@@ -190,14 +190,14 @@ fillSelect('f-supervisor', SUPERVISORES);
 fillSelect('f-falla', MODOS_FALLA);
 fillSelect('f-categoria', CATEGORIAS_FALLA);
 fillSelect('f-tecnico', TECNICOS);
-
+ 
 document.getElementById('f-fecha').valueAsDate = new Date();
-
+ 
 function setStatus(ok, text){
   document.getElementById('statusDot').classList.toggle('off', !ok);
   document.getElementById('statusText').textContent = text;
 }
-
+ 
 async function init(){
   if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PEGA_AQUI') !== -1){
     document.getElementById('setupWarning').style.display = 'block';
@@ -208,7 +208,7 @@ async function init(){
   await loadRecords();
   pollTimer = setInterval(loadRecords, 20000); // refresco automático cada 20s
 }
-
+ 
 async function loadRecords(){
   try{
     const res = await fetch(APPS_SCRIPT_URL, {method:'GET'});
@@ -221,7 +221,7 @@ async function loadRecords(){
     setStatus(false, 'No se pudo conectar a Google Sheets. Revisa la URL configurada y tu conexión.');
   }
 }
-
+ 
 function render(){
   const tbody = document.getElementById('tbody');
   const empty = document.getElementById('emptyMsg');
@@ -252,11 +252,11 @@ function render(){
     btn.addEventListener('click', ()=>deleteRecord(btn.dataset.id));
   });
 }
-
+ 
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
+ 
 async function postToSheet(payload){
   // text/plain evita el preflight CORS con Apps Script
   const res = await fetch(APPS_SCRIPT_URL, {
@@ -267,7 +267,7 @@ async function postToSheet(payload){
   if(!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
 }
-
+ 
 async function addRecord(){
   const equipo = document.getElementById('f-equipo').value;
   const tipo = document.getElementById('f-tipo').value;
@@ -279,7 +279,7 @@ async function addRecord(){
   const categoriaFalla = document.getElementById('f-categoria').value;
   const tiempoRaw = document.getElementById('f-tiempo').value;
   const descripcion = document.getElementById('f-desc').value.trim();
-
+ 
   if(!equipo || !fecha){
     alert('Por favor indica al menos el equipo y la fecha.');
     return;
@@ -316,7 +316,7 @@ async function addRecord(){
     btn.disabled = !canWrite;
   }
 }
-
+ 
 async function deleteRecord(id){
   if(!confirm('¿Eliminar este registro?')) return;
   try{
@@ -326,7 +326,7 @@ async function deleteRecord(id){
     alert('No se pudo eliminar el registro.');
   }
 }
-
+ 
 function exportExcel(){
   if(!records.length){ alert('No hay registros para exportar.'); return; }
   const rows = records.map(r=>({
@@ -354,7 +354,7 @@ function exportExcel(){
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 }
-
+ 
 document.getElementById('btnAdd').addEventListener('click', addRecord);
 document.getElementById('btnRefresh').addEventListener('click', loadRecords);
 document.getElementById('f-tiempo').addEventListener('input', (e)=>{
@@ -365,8 +365,10 @@ document.getElementById('f-tiempo').addEventListener('input', (e)=>{
   if(n > 1440) e.target.value = 1440;
 });
 document.getElementById('btnExport').addEventListener('click', exportExcel);
-
+ 
 init();
 </script>
 </body>
 </html>
+ 
+ 
